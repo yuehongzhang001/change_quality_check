@@ -43,7 +43,7 @@ From the repository root:
 Optional parameters:
 
 ```powershell
-.\scripts\install.ps1 -RepoPath D:\git\change_quality_check -SkillRoot "$env:USERPROFILE\.codex\skills"
+.\scripts\install.ps1 -RepoPath (Get-Location) -SkillRoot "$env:USERPROFILE\.codex\skills"
 ```
 
 Install behavior:
