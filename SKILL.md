@@ -1,13 +1,13 @@
 ---
 name: change-quality-check
-description: Use this skill when the user wants a code change to stay concise, well-structured, and maintainable, especially when they want cleaner implementation, less patch-stacking, scoped refactoring, and a final check for whether existing changes require syncing documents under documents/.
+description: Use this skill when the user wants a code change to stay concise, well-structured, and maintainable, especially when they want cleaner implementation, less patch-stacking, scoped refactoring, and a final check for whether the change altered anything the code cannot show.
 ---
 
 # Change Quality Check
 
 ## Overview
 
-Use this skill to keep implementation work structurally clean instead of patch-oriented. Favor small, coherent abstractions, preserve module boundaries, refactor newly affected code when the change would otherwise leave duplication, tangled responsibilities, or confusing control flow behind, and finish with a check for whether the final change requires syncing project documents.
+Use this skill to keep implementation work structurally clean instead of patch-oriented. Favor small, coherent abstractions, preserve module boundaries, refactor newly affected code when the change would otherwise leave duplication, tangled responsibilities, or confusing control flow behind, and finish by checking whether the final change altered anything the code cannot show.
 
 ## Working Style
 
@@ -38,7 +38,7 @@ Use this sequence while working:
 2. Check whether an existing abstraction already owns most of that behavior.
 3. If not, add or extract the smallest abstraction that keeps the code easier to understand after the change than before it.
 4. After implementing, inspect the touched area for local cleanup that is now justified by the new code.
-5. Review whether the final change altered stable behavior, contracts, workflows, or constraints that should be reflected in `documents/`.
+5. Check whether the final change altered a business rule, external constraint or decision that the code cannot show.
 
 Keep refactors scoped. Do not turn a feature request into a broad rewrite. Limit cleanup to code that is directly touched, newly stressed, or now clearly duplicated because of the change.
 
@@ -55,21 +55,23 @@ Perform a follow-up refactor when one or more of these conditions appear after t
 
 See [references/refactor-checklist.md](references/refactor-checklist.md) for the detailed checklist.
 
-## Documentation Sync Check
+## Documentation Check
 
-Before closing the task, inspect the final change and decide whether it affects any documented behavior, business rule, schema, contract, workflow, architectural decision, security rule, or long-term constraint.
+Code comes first. Documents hold only what the code cannot show: business rules, external constraints, and decisions with their reasons. Where the repository's `AGENTS.md` says more, follow it.
 
-If documentation is required:
+Before closing the task, update a document only when one of these holds:
 
-- Read only the relevant files under `documents/`.
-- Start from `documents/README.md` when repository guidance says to do so.
-- Prefer updating an existing centralized document over creating a scattered new file.
-- Rewrite or remove stale and conflicting descriptions instead of appending temporary notes.
-- Keep wording concise, durable, and about stable behavior or decisions rather than implementation trivia.
+- The final change altered a rule, constraint, or decision that a reader could not learn from the code.
+- A document now says something false. Correct or remove that statement.
 
-If documentation is not required:
+Otherwise change no document. Do not record architecture, file layout, routes, schema, plans, rollout status, or history.
 
-- State explicitly why not.
+When a document does need changing:
+
+- Read only the document that owns the topic.
+- Revise an existing document rather than adding a new file.
+- Replace or remove stale text instead of appending notes.
+- Keep the wording short and durable.
 
 If the difference between code and docs looks like a bug, unfinished work, or accidental behavior drift, stop and report that concern instead of forcing docs to match.
 
@@ -88,6 +90,6 @@ When reporting completed work:
 - Briefly describe the structural change, not just the feature change.
 - Mention any local refactor you performed and why it reduced complexity.
 - If no refactor was needed, state that the surrounding structure remained coherent.
-- State whether documentation was updated, and why it was or was not required.
+- If a document changed, name it and the rule it records.
 - If you intentionally avoided a larger refactor, state the boundary you chose.
 - Mention any remaining structural risk or follow-up cleanup worth considering.

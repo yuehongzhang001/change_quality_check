@@ -1,7 +1,7 @@
 interface:
   display_name: "Change Quality Check"
-  short_description: "Clean changes plus doc sync review"
-  default_prompt: "Use $change-quality-check to implement this change cleanly, refactor nearby code if needed, and check whether documents must be synced before finishing."
+  short_description: "Clean changes with minimal docs"
+  default_prompt: "Use $change-quality-check to implement this change cleanly, refactor nearby code if needed, and check whether it altered anything the code cannot show before finishing."
 
 policy:
   allow_implicit_invocation: true
